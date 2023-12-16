@@ -1,0 +1,19 @@
+FROM ubuntu:lunar
+COPY --from=oven/bun:latest /usr/local/bin /usr/local/bin
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+RUN /usr/local/bin/docker-entrypoint.sh
+
+# 필요한 패키지 설치
+RUN apt update && apt install -y git python3
+
+# 작업 디렉토리 설정
+WORKDIR /usr/src/app
+
+# Git 저장소 복제 스크립트
+COPY clone_and_setup.sh .
+
+# 스크립트 실행 가능하도록 설정
+RUN chmod +x clone_and_setup.sh
+
+# 스크립트 실행
+CMD ["./clone_and_setup.sh"]
