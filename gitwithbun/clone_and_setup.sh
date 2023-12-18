@@ -8,10 +8,10 @@ if [ ! -d "$GIT_REPO" ]; then
 fi
 # Bun을 사용하여 의존성 설치 및 애플리케이션 설정
 # 여기서는 예시로 bun install을 실행한다고 가정
-cd $GIT_REPO
+cd "$GIT_REPO" || exit
 
 for var in $(set | grep "^HAN" | cut -d '=' -f 1); do
-    export $var
+    export "${var?}"
 done
 
 bun install
