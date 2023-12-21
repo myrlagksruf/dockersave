@@ -14,6 +14,8 @@ for var in $(set | grep "^HAN" | cut -d '=' -f 1); do
     export "${var?}"
 done
 
+bun upgrade
+
 bun install
 
 # 여기에 추가적인 설정이나 스크립트 실행 명령을 추가할 수 있음
