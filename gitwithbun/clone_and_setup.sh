@@ -10,13 +10,19 @@ fi
 # 여기서는 예시로 bun install을 실행한다고 가정
 cd "$GIT_REPO" || exit
 
+if [ -n "$UPDATE" ]; then
+    apt update -y && apt upgrade -y
+fi
+
+# HAN 접두사가 있는 경우만 export로 노출
 for var in $(set | grep "^HAN" | cut -d '=' -f 1); do
     export "${var?}"
 done
 
-bun upgrade
+if [ -n "$BUN_UPGRADE" ]; then
+    bun upgrade
+fi
 
 bun install
 
-# 여기에 추가적인 설정이나 스크립트 실행 명령을 추가할 수 있음
 bun start
