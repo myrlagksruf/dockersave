@@ -6,9 +6,14 @@
 if [ ! -d "$GIT_REPO" ]; then
     git clone https://$GIT_USERNAME:$GIT_PASSWORD@github.com/$GIT_USER/$GIT_REPO
 fi
+
 # Bun을 사용하여 의존성 설치 및 애플리케이션 설정
 # 여기서는 예시로 bun install을 실행한다고 가정
 cd "$GIT_REPO" || exit
+
+if [ -n "$BRANCH" ]; then
+    git checkout "$BRANCH"
+fi
 
 if [ -n "$UPDATE" ]; then
     apt update -y && apt upgrade -y
