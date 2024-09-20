@@ -6,12 +6,16 @@ SHELL ["/bin/bash", "-l", "-c"]
 
 RUN apt update -y && \
     apt upgrade -y && \
-    apt install -y curl make gcc g++ git libaio1 wget unzip zip nano build-essential gdb lcov pkg-config libbz2-dev libffi-dev libgdbm-dev libgdbm-compat-dev liblzma-dev libncurses5-dev libreadline6-dev libsqlite3-dev libssl-dev lzma lzma-dev tk-dev uuid-dev zlib1g-dev default-libmysqlclient-dev php && \
+    apt install -y curl make gcc g++ git libaio1 wget unzip zip nano build-essential gdb lcov pkg-config libbz2-dev libffi-dev libgdbm-dev libgdbm-compat-dev liblzma-dev libncurses5-dev libreadline6-dev libsqlite3-dev libssl-dev lzma lzma-dev tk-dev uuid-dev zlib1g-dev default-libmysqlclient-dev php locales && \
     apt clean && \
     rm -rf /var/lib/apt/lists/* && \
     git config --global user.name "Han Kyeol Kim" && \
     git config --global user.email "hankyeol.kim@meritz.co.kr" && \
     git config --global credential.helper store
+
+RUN localedef -f UTF-8 -i ko_KR ko_KR.UTF-8
+
+ENV LC_ALL ko_KR.UTF-8
 
 RUN mkdir /usr/local/nvm
 
