@@ -1,0 +1,84 @@
+{
+    "assetTypes": null,
+    "filters": [
+        {
+            "criteria": [
+                {
+                    "filterType": 7,
+                    "value": "ms-vscode-remote.remote-containers"
+                },
+                {
+                    "filterType": 7,
+                    "value": "bradlc.vscode-tailwindcss"
+                },
+                {
+                    "filterType": 7,
+                    "value": "ms-toolsai.jupyter"
+                },
+                {
+                    "filterType":7,
+                    "value":"Equinusocio.vsc-material-theme-icons"
+                },
+                {
+                    "filterType":7,
+                    "value":"eamodio.gitlens"
+                },
+                {
+                    "filterType":7,
+                    "value":"golang.Go"
+                },
+                {
+                    "filterType":7,
+                    "value":"ms-python.black-formatter"
+                },
+                {
+                    "filterType":7,
+                    "value":"ms-python.debugpy"
+                },
+                {
+                    "filterType":7,
+                    "value":"ms-python.python"
+                },
+                {
+                    "filterType":7,
+                    "value":"ms-python.vscode-pylance"
+                },
+                {
+                    "filterType":7,
+                    "value":"ms-toolsai.jupyter-keymap"
+                },
+                {
+                    "filterType":7,
+                    "value":"ms-toolsai.vscode-jupyter-cell-tags"
+                },
+                {
+                    "filterType":7,
+                    "value":"ms-toolsai.vscode-jupyter-slideshow"
+                },
+                {
+                    "filterType":7,
+                    "value":"qwtel.sqlite-viewer"
+                },
+                {
+                    "filterType":7,
+                    "value":"rangav.vscode-thunder-client"
+                },
+                {
+                    "filterType":7,
+                    "value":"yzhang.markdown-all-in-one"
+                },
+                {
+                    "filterType": 8, 
+                    "value": "Microsoft.VisualStudio.Code"
+                }
+            ],
+            "direction": 2,
+            "pageSize": 100,
+            "pageNumber": 1,
+            "sortBy": 0,
+            "sortOrder": 0,
+            "pagingToken": null
+        }
+    ],
+    "flags": 1073
+}
