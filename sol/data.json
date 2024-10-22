@@ -68,6 +68,10 @@
                     "value":"yzhang.markdown-all-in-one"
                 },
                 {
+                    "filterType":7,
+                    "value":"Continue.continue"
+                },
+                {
                     "filterType": 8, 
                     "value": "Microsoft.VisualStudio.Code"
                 }
