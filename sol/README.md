@@ -1,0 +1,9 @@
+- python 3.12.7
+- python 3.11.10
+- python 3.8.20
+- node 16
+- node 22
+- vscode-server 1.94.2
+- 한글 지원
+- oracle 23.4.0.24.05
+- p7zip 추가 버전
