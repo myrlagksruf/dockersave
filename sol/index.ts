@@ -1,4 +1,7 @@
 import semver from 'semver'
+import fs from 'node:fs'
+import * as tar from 'tar'
+
 
 const res = await fetch("https://marketplace.visualstudio.com/_apis/public/gallery/extensionquery", {
     "credentials": "include",
@@ -14,11 +17,17 @@ const res = await fetch("https://marketplace.visualstudio.com/_apis/public/galle
     "mode": "cors"
 });
 
+try{
+    await fs.promises.access('extensions')
+} catch(err){
+    await fs.promises.mkdir('extensions')
+}
+
 const getFile = async (pn:string, en:string, version:number, target?:string) => {
     const targetQuery = target ? `?targetPlatform=${target}` : ''
     const targetName = target ? `@${target}` : ''
     const res = await fetch(`https://marketplace.visualstudio.com/_apis/public/gallery/publishers/${pn}/vsextensions/${en}/${version}/vspackage${targetQuery}`)
-    await Bun.write(`./${pn}.${en}-${version}${targetName}.vsix`, await res.blob())
+    await Bun.write(`./extensions/${pn}.${en}-${version}${targetName}.vsix`, await res.blob())
 }
 
 const json = await res.json()
@@ -41,5 +50,11 @@ for(const i of json.results[0].extensions){
     const version = versionData.version
     await getFile(i.publisher.publisherName, i.extensionName, version, target)
 }
+
+tar.c({
+    z:true,   
+}, [
+    'extensions'
+]).pipe(fs.createWriteStream('extensions.tgz'))
 
 export {}

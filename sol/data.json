@@ -72,6 +72,10 @@
                     "value":"Continue.continue"
                 },
                 {
+                    "filterType":7,
+                    "value":"ms-azuretools.vscode-docker"
+                },
+                {
                     "filterType": 8, 
                     "value": "Microsoft.VisualStudio.Code"
                 }
