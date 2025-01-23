@@ -16,7 +16,7 @@ RUN apt update -y && \
     apt install -y graphviz \
         p7zip-full \
         curl wget \
-        build-essential clang \
+        build-essential mingw-w64 \
         git \
         libaio1 \
         unzip zip \
