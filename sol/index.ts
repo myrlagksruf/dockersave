@@ -34,7 +34,7 @@ const json = await res.json()
 
 console.log(json)
 
-const VS = '1.95.3'
+const VS = '1.96.4'
 
 for(const i of json.results[0].extensions){
     console.log(i.publisher.publisherName, i.extensionName)
