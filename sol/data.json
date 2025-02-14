@@ -76,6 +76,30 @@
                     "value":"ms-azuretools.vscode-docker"
                 },
                 {
+                    "filterType":7,
+                    "value":"Serhioromano.vscode-gitflow"
+                },
+                {
+                    "filterType":7,
+                    "value":"ms-vscode.cpptools-themes"
+                },
+                {
+                    "filterType":7,
+                    "value":"ms-vscode.cpptools"
+                },
+                {
+                    "filterType":7,
+                    "value":"twxs.cmake"
+                },
+                {
+                    "filterType":7,
+                    "value":"ms-vscode.cmake-tools"
+                },
+                {
+                    "filterType":7,
+                    "value":"hediet.vscode-drawio"
+                },
+                {
                     "filterType": 8, 
                     "value": "Microsoft.VisualStudio.Code"
                 }

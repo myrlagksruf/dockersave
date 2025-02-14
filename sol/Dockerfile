@@ -4,7 +4,7 @@ WORKDIR /root/workspace
 
 SHELL ["/bin/bash", "-l", "-c"]
 
-ARG P_version="3.13.1 3.12.8 3.8.20"
+ARG P_version="3.13.1 3.11.11 3.8.20"
 ENV NVM_DIR /usr/local/nvm
 ENV LC_ALL ko_KR.UTF-8
 ENV PATH $PATH:/opt/oracle/instantclient_23_4
@@ -17,7 +17,7 @@ RUN apt update -y && \
         p7zip-full \
         curl wget \
         build-essential mingw-w64 \
-        git \
+        git git-flow \
         libaio1 \
         unzip zip \
         nano \

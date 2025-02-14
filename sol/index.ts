@@ -17,12 +17,10 @@ const res = await fetch("https://marketplace.visualstudio.com/_apis/public/galle
     "mode": "cors"
 });
 
-try{
-    await fs.promises.access('extensions')
-} catch(err){
-    await fs.promises.mkdir('extensions')
-}
-
+await fs.promises.rm("extensions.tgz", { force:true})
+await fs.promises.rm("extensions", { force:true, recursive:true })
+await fs.promises.mkdir('extensions')
+await fs.promises.copyFile('install.sh', 'extensions/install.sh')
 const getFile = async (pn:string, en:string, version:number, target?:string) => {
     const targetQuery = target ? `?targetPlatform=${target}` : ''
     const targetName = target ? `@${target}` : ''
@@ -32,15 +30,12 @@ const getFile = async (pn:string, en:string, version:number, target?:string) => 
 
 const json = await res.json()
 
-console.log(json)
-
 const VS = '1.96.4'
 
 for(const i of json.results[0].extensions){
     console.log(i.publisher.publisherName, i.extensionName)
     const versionData = i.versions.find(v => {
         const first = v.targetPlatform === undefined || v.targetPlatform === "linux-x64"
-        console.log(v)
         if(!v.properties) return first
         const engine = v.properties.find(t => t.key === 'Microsoft.VisualStudio.Code.Engine')
         return first && semver.satisfies(VS, engine.value)
