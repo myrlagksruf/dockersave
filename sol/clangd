@@ -1,0 +1,11 @@
+If:
+  PathMatch: .*\.c$
+  CompileFlags:
+    Add:
+      - "-std=c2x"
+
+If:
+  PathMatch: .*\.cpp$
+  CompileFlags:
+    Add:
+      - "-std=c++20"

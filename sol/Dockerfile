@@ -10,6 +10,7 @@ ENV LC_ALL ko_KR.UTF-8
 ENV PATH $PATH:/opt/oracle/instantclient_23_4
 ARG COMM_ID="cd4ee3b1c348a13bafd8f9ad8060705f6d4b9cba"
 RUN mkdir -p /opt/oracle && mkdir -p /root/workspace && mkdir -p /root/.vscode-server/bin/$COMM_ID
+COPY clangd /root/.clangd
 
 RUN apt update -y && \
     apt upgrade -y && \
