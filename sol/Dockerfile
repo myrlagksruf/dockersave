@@ -4,11 +4,11 @@ WORKDIR /root/workspace
 
 SHELL ["/bin/bash", "-l", "-c"]
 
-ARG P_version="3.13.1 3.11.11 3.8.20"
-ENV NVM_DIR /usr/local/nvm
-ENV LC_ALL ko_KR.UTF-8
-ENV PATH $PATH:/opt/oracle/instantclient_23_4
-ARG COMM_ID="cd4ee3b1c348a13bafd8f9ad8060705f6d4b9cba"
+ARG P_version="3.12.10 3.8.20"
+ENV NVM_DIR=/usr/local/nvm
+ENV LC_ALL=ko_KR.UTF-8
+ENV PATH=$PATH:/opt/oracle/instantclient_23_4
+ARG COMM_ID="7c6fdfb0b8f2f675eb0b47f3d95eeca78962565b"
 RUN mkdir -p /opt/oracle && mkdir -p /root/workspace && mkdir -p /root/.vscode-server/bin/$COMM_ID
 COPY clangd /root/.clangd
 
@@ -24,11 +24,12 @@ RUN apt update -y && \
         nano \
         gdb lcov pkg-config libbz2-dev libffi-dev libgdbm-dev libgdbm-compat-dev liblzma-dev libncurses5-dev libreadline6-dev libsqlite3-dev libssl-dev lzma lzma-dev tk-dev uuid-dev zlib1g-dev \
         default-libmysqlclient-dev \
-        locales && \
+        locales clangd-19 && \
     apt clean && \
     rm -rf /var/lib/apt/lists/* && \
-    git config --global user.name "Han Kyeol Kim" && \
-    git config --global user.email "hankyeol.kim@meritz.co.kr" && \
+    update-alternatives --install /usr/bin/clangd clangd /usr/bin/clangd-19 100 && \
+    # git config --global user.name "Han Kyeol Kim" && \
+    # git config --global user.email "hankyeol.kim@meritz.co.kr" && \
     git config --global credential.helper store && \
     localedef -f UTF-8 -i ko_KR ko_KR.UTF-8 && \
     curl -o vscode-server-linux-x64.tar.gz -L https://update.code.visualstudio.com/commit:$COMM_ID/server-linux-x64/stable && \
@@ -74,13 +75,6 @@ RUN apt update -y && \
         python$P_MM -m pip install --upgrade pip setuptools wheel pytest-runner && \
         pip$P_MM install --upgrade setuptools wheel pytest-runner pip; \
     done
-
-# go-debugger 필요
-# WORKDIR /root
-# RUN curl -O https://go.dev/dl/go1.23.1.linux-amd64.tar.gz && \
-#     tar xzfp go1.23.1.linux-amd64.tar.gz --directory /usr/local
-
-# ENV PATH /go
 
 RUN for P in ${P_version}; do \
     pip$P_MM config --global set global.trusted_host sol-dist && \
