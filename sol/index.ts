@@ -33,19 +33,18 @@ const json = await res.json()
 const VS = '1.99.1'
 
 for(const i of json.results[0].extensions){
-    console.log(i.publisher.publisherName, i.extensionName)
     const versionData = i.versions.find(v => {
         console.log(v)
         const first = v.targetPlatform === undefined || v.targetPlatform === "linux-x64"
         if(!v.properties) return first
         const engine = v.properties.find(t => t.key === 'Microsoft.VisualStudio.Code.Engine')
-        return first && semver.satisfies(VS, engine.value)
+        const pre = v.properties.find(t => t.key === 'Microsoft.VisualStudio.Code.PreRelease')
+        return first && semver.satisfies(VS, engine.value) && (!pre || pre.value !== 'true')
     })
     // console.log(versionData)
     const target = versionData.targetPlatform
     const version = versionData.version
     await getFile(i.publisher.publisherName, i.extensionName, version, target)
-    break
 }
 
 tar.c({
