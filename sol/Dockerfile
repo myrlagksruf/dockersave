@@ -1,23 +1,23 @@
-FROM debian:bookworm
+FROM ghcr.io/astral-sh/uv:debian
 
 WORKDIR /root/workspace
 
 SHELL ["/bin/bash", "-l", "-c"]
 
-ARG P_version="3.12.10 3.8.20"
 ENV NVM_DIR=/usr/local/nvm
 ENV LC_ALL=ko_KR.UTF-8
 ENV PATH=$PATH:/opt/oracle/instantclient_23_4
-ARG COMM_ID="7c6fdfb0b8f2f675eb0b47f3d95eeca78962565b"
-RUN mkdir -p /opt/oracle && mkdir -p /root/workspace && mkdir -p /root/.vscode-server/bin/$COMM_ID
+ARG COMM_ID="17baf841131aa23349f217ca7c570c76ee87b957"
+RUN mkdir -p /opt/oracle && mkdir -p /root/workspace && mkdir -p /root/.vscode-server/bin/$COMM_ID && mkdir -p /root/.config/uv
 COPY clangd /root/.clangd
 
-RUN apt update -y && \
+RUN uv python install 3.8 3.12 && \
+    apt update -y && \
     apt upgrade -y && \
     apt install -y graphviz \
         p7zip-full \
         curl wget \
-        build-essential mingw-w64 \
+        mingw-w64 \
         git git-flow \
         libaio1 \
         unzip zip \
@@ -27,6 +27,11 @@ RUN apt update -y && \
         locales clangd-19 && \
     apt clean && \
     rm -rf /var/lib/apt/lists/* && \
+    wget -O restic.bz2 https://github.com/restic/restic/releases/download/v0.18.0/restic_0.18.0_linux_amd64.bz2 &&\
+    bunzip2 restic.bz2 &&\
+    chmod +x restic &&\
+    mv restic /usr/local/bin/ && \
+    rm -f restic.bz2 &&\
     update-alternatives --install /usr/bin/clangd clangd /usr/bin/clangd-19 100 && \
     # git config --global user.name "Han Kyeol Kim" && \
     # git config --global user.email "hankyeol.kim@meritz.co.kr" && \
@@ -59,28 +64,9 @@ RUN apt update -y && \
     npm i -g npm yarn && \
     yarn config set registry "http://sol-dist:4873" && \
     yarn config set ignore-engines true && \
-    for P in ${P_version}; do \
-        P_M=(`echo $P | tr "." "\n"`) && \
-        P_MM="${P_M[0]}.${P_M[1]}" && \
-        echo "$P, $P_MM" && \
-        sleep 1 && \
-        curl -O https://www.python.org/ftp/python/$P/Python-$P.tgz && \
-        tar xvf Python-$P.tgz && \
-        cd /root/workspace/Python-$P && \
-        ./configure --enable-optimizations --disable-gil && \
-        make -j "$(nproc)" && \
-        make altinstall && \
-        cd /root/workspace && \
-        rm -rf Python-$P.tgz Python-$P && \ 
-        python$P_MM -m pip install --upgrade pip setuptools wheel pytest-runner && \
-        pip$P_MM install --upgrade setuptools wheel pytest-runner pip; \
-    done
-
-RUN for P in ${P_version}; do \
-    pip$P_MM config --global set global.trusted_host sol-dist && \
-    pip$P_MM config --global set global.index_url http://sol-dist:3141/root/pypi/+simple/; \
-done
-
+    echo '[pip]' >> /root/.config/uv/uv.toml && \
+    echo 'index-url = "http://sol-dist:3141/root/pypi/+simple/"' >> /root/.config/uv/uv.toml;
+    
 WORKDIR /root/workspace
 
 ENTRYPOINT [ "/bin/bash" ]

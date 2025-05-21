@@ -30,7 +30,7 @@ const getFile = async (pn:string, en:string, version:number, target?:string) => 
 
 const json = await res.json()
 
-const VS = '1.99.1'
+const VS = '1.99.3'
 
 for(const i of json.results[0].extensions){
     const versionData = i.versions.find(v => {

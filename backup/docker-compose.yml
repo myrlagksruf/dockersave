@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  restic-watcher:
+    image: sol-dist:5000/backup:1.0.0
+    container_name: restic-watcher
+    volumes:
+      - /home/incodingplus/dockersave/backup/test:/data
+      - /home/incodingplus/dockersave/backup/backup:/repo
+    environment:
+      - RESTIC_PASSWORD=secret
+    restart: unless-stopped
