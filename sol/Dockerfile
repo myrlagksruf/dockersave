@@ -1,4 +1,4 @@
-FROM ghcr.io/astral-sh/uv:debian
+FROM ghcr.io/astral-sh/uv:bookworm
 
 WORKDIR /root/workspace
 
@@ -7,7 +7,7 @@ SHELL ["/bin/bash", "-l", "-c"]
 ENV NVM_DIR=/usr/local/nvm
 ENV LC_ALL=ko_KR.UTF-8
 ENV PATH=$PATH:/opt/oracle/instantclient_23_4
-ARG COMM_ID="17baf841131aa23349f217ca7c570c76ee87b957"
+ARG COMM_ID="848b80aeb52026648a8ff9f7c45a9b0a80641e2e"
 RUN mkdir -p /opt/oracle && mkdir -p /root/workspace && mkdir -p /root/.vscode-server/bin/$COMM_ID && mkdir -p /root/.config/uv
 COPY clangd /root/.clangd
 
@@ -24,7 +24,7 @@ RUN uv python install 3.8 3.12 && \
         nano \
         gdb lcov pkg-config libbz2-dev libffi-dev libgdbm-dev libgdbm-compat-dev liblzma-dev libncurses5-dev libreadline6-dev libsqlite3-dev libssl-dev lzma lzma-dev tk-dev uuid-dev zlib1g-dev \
         default-libmysqlclient-dev \
-        locales clangd-19 && \
+        locales clangd-19 proxychains4 && \
     apt clean && \
     rm -rf /var/lib/apt/lists/* && \
     wget -O restic.bz2 https://github.com/restic/restic/releases/download/v0.18.0/restic_0.18.0_linux_amd64.bz2 &&\
