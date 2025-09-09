@@ -5,6 +5,10 @@
             "criteria": [
                 {
                     "filterType": 7,
+                    "value": "golang.Go"
+                },
+                {
+                    "filterType": 7,
                     "value": "ms-vscode-remote.remote-containers"
                 },
                 {

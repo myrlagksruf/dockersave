@@ -38,7 +38,7 @@ if(import.meta.main){
     
     const json = await res.json()
     
-    const VS = '1.100.2'
+    const VS = '1.103.2'
     
     for(const i of json.results[0].extensions){
         const versionData = i.versions.find(v => {
