@@ -62,7 +62,11 @@ RUN curl -fsSL https://fnm.vercel.app/install | bash && \
     export PATH="/root/.local/share/fnm:$PATH"
 
 RUN for version in $NODE_VERSION; do \
-        fnm install --corepack-enabled $version; \
+        if [ "$version" = "16" ]; then \
+            fnm install $version; \
+        else \
+            fnm install --corepack-enabled $version; \
+        fi; \
     done
 
 RUN echo "next"
