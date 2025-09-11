@@ -10,7 +10,7 @@ ARG COMM_ID="6f17636121051a53c88d3e605c491d22af2ba755"
 ARG GO_VERSION="1.25.1"
 ARG NPM_PROXY="http://sol-dist:4873"
 ARG PIP_PROXY="http://sol-dist:3141/root/pypi/+simple/"
-ARG NODE_VERSION="16 24"
+ARG NODE_VERSION="24 16"
 RUN mkdir -p /opt/oracle && mkdir -p /root/workspace && mkdir -p /root/.vscode-server/bin/$COMM_ID && mkdir -p /root/.config/uv
 COPY clangd /root/.clangd
 
@@ -26,6 +26,7 @@ RUN apt update && \
         libaio1 \
         unzip zip \
         nano \
+        libnspr4 libnss3 libdbus-1-3 libatk1.0-0 libatk-bridge2.0-0 libatspi2.0-0 libxcomposite1 libxdamage1 libxfixes3 libxrandr2 libgbm1 libxkbcommon0 libasound2 \
         locales clangd-19 proxychains4 && \
     apt clean && \
     rm -rf /var/lib/apt/lists/* && \
@@ -43,7 +44,7 @@ RUN wget -O restic.bz2 https://github.com/restic/restic/releases/download/v0.18.
     mv restic /usr/local/bin/ && \
     rm -f restic.bz2
     
-RUN curl -o vscode-server-linux-x64.tar.gz -L https://update.code.visualstudio.com/commit:$COMM_ID/server-linux-x64/stable && \
+RUN wget -O vscode-server-linux-x64.tar.gz -L https://update.code.visualstudio.com/commit:$COMM_ID/server-linux-x64/stable && \
     cd /root/.vscode-server/bin/$COMM_ID && \
     tar -xvzf /root/workspace/vscode-server-linux-x64.tar.gz --strip-components 1 && \
     rm /root/workspace/vscode-server-linux-x64.tar.gz
