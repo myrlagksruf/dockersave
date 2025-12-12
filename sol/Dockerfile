@@ -6,15 +6,13 @@ SHELL ["/bin/bash", "-l", "-c"]
 
 ENV LC_ALL=ko_KR.UTF-8
 ENV PATH=$PATH:/opt/oracle/instantclient_23_4:/usr/local/go/bin
-ARG COMM_ID="6f17636121051a53c88d3e605c491d22af2ba755"
-ARG GO_VERSION="1.25.1"
-ARG NPM_PROXY="http://sol-dist:4873"
-ARG PIP_PROXY="http://sol-dist:3141/root/pypi/+simple/"
-ARG NODE_VERSION="24 16"
-RUN mkdir -p /opt/oracle && mkdir -p /root/workspace && mkdir -p /root/.vscode-server/bin/$COMM_ID && mkdir -p /root/.config/uv
-COPY clangd /root/.clangd
 
-RUN uv python install 3.8 3.13
+ARG GO_VERSION="1.25.5"
+ARG NODE_VERSION="24"
+COPY clangd /root/.clangd
+RUN mkdir -p /opt/oracle && mkdir -p /root/workspace
+
+RUN uv python install 3.8 3.13 3.14
 
 RUN apt update && \
     apt upgrade -y && \
@@ -38,16 +36,11 @@ RUN wget -q https://go.dev/dl/go${GO_VERSION}.linux-amd64.tar.gz && \
     tar -C /usr/local -xzf go${GO_VERSION}.linux-amd64.tar.gz && \
     rm go${GO_VERSION}.linux-amd64.tar.gz
 
-RUN wget -O restic.bz2 https://github.com/restic/restic/releases/download/v0.18.0/restic_0.18.0_linux_amd64.bz2 &&\
+RUN wget -O restic.bz2 https://github.com/restic/restic/releases/download/v0.18.1/restic_0.18.1_linux_amd64.bz2 &&\
     bunzip2 restic.bz2 &&\
     chmod +x restic &&\
     mv restic /usr/local/bin/ && \
     rm -f restic.bz2
-    
-RUN wget -O vscode-server-linux-x64.tar.gz -L https://update.code.visualstudio.com/commit:$COMM_ID/server-linux-x64/stable && \
-    cd /root/.vscode-server/bin/$COMM_ID && \
-    tar -xvzf /root/workspace/vscode-server-linux-x64.tar.gz --strip-components 1 && \
-    rm /root/workspace/vscode-server-linux-x64.tar.gz
 
 RUN cd /opt/oracle && \
     wget https://download.oracle.com/otn_software/linux/instantclient/2340000/instantclient-basiclite-linux.x64-23.4.0.24.05.zip && \
@@ -79,21 +72,19 @@ RUN for version in $NODE_VERSION; do \
         echo "Current Node.js version: $(node --version)"; \
         echo "Current npm version: $(npm --version)"; \
         echo "Setting up Node.js version: $version"; \
-        if [ "$version" = "16" ]; then \
-            npm i -g npm@9 yarn; \
-            yarn config set registry "$NPM_PROXY"; \
-            yarn config set ignore-engines true; \
-        else \
-            npm i -g npm@latest; \
-            corepack enable && corepack prepare yarn --activate; \
-        fi; \
+        npm i -g npm@latest; \
+        corepack enable && corepack prepare yarn@4.9.4 --activate; \
         echo "After npm install - npm version: $(npm --version)"; \
         echo "After npm install - yarn version: $(yarn --version)"; \
         echo "Completed Node.js $version setup"; \
     done
-    
-RUN echo '[pip]' >> /root/.config/uv/uv.toml && \
-    echo "index-url = \"$PIP_PROXY\"" >> /root/.config/uv/uv.toml;
+
+ARG COMM_ID="618725e67565b290ba4da6fe2d29f8fa1d4e3622"
+RUN mkdir -p /root/.vscode-server/bin/$COMM_ID
+RUN wget -O vscode-server-linux-x64.tar.gz -L https://update.code.visualstudio.com/commit:$COMM_ID/server-linux-x64/stable && \
+    cd /root/.vscode-server/bin/$COMM_ID && \
+    tar -xvzf /root/workspace/vscode-server-linux-x64.tar.gz --strip-components 1 && \
+    rm /root/workspace/vscode-server-linux-x64.tar.gz
 
 WORKDIR /root/workspace
 
