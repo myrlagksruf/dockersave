@@ -1,5 +1,4 @@
 FROM ghcr.io/astral-sh/uv:python3.13-trixie-slim
-# FROM ghcr.io/astral-sh/uv:python3.12-bookworm-slim
 
 RUN mkdir -p /opt/oracle
 
